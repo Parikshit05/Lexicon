@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HyperBuild - The Lexicon MILE AI Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#3B82F6;--indigo:#6366F1;--cyan:#22D3EE;--violet:#A855F7;--emerald:#34D399;--bg:#0B0F19;--bg2:#0A0E17;--text:#F5F7FA;--text-dim:#94A3B8;--glass:rgba(15,20,35,0.7);--glass-border:rgba(99,102,241,0.15);--gradient:linear-gradient(135deg,var(--primary),var(--indigo),var(--violet))}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4,h5,h6{font-family:'Space Grotesk',sans-serif;font-weight:700;line-height:1.15}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--indigo);border-radius:3px}
+.navbar{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:16px 0;transition:all .4s ease}
+.navbar.scrolled{background:rgba(10,14,23,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);padding:10px 0}
+.navbar .container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0 24px}
+.nav-brand{display:flex;align-items:baseline;gap:8px}
+.nav-brand .logo{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-brand .tagline{font-size:.75rem;color:var(--text-dim);letter-spacing:.5px}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:.875rem;font-weight:500;color:var(--text-dim);transition:color .3s;position:relative}
+.nav-links a:hover,.nav-links a:focus{color:var(--text)}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gradient);transition:width .3s}
+.nav-links a:hover::after,.nav-links a:focus::after{width:100%}
+.nav-cta{padding:10px 22px;border-radius:8px;font-size:.85rem;font-weight:600;background:var(--gradient);color:#fff;border:none;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(99,102,241,0.4)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+.hamburger span{width:24px;height:2px;background:var(--text);transition:all .3s;border-radius:2px}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(10,14,23,0.98);backdrop-filter:blur(20px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+.mobile-menu.active{display:flex}
+.mobile-menu a{font-size:1.25rem;font-weight:600;color:var(--text-dim);transition:color .3s}
+.mobile-menu a:hover{color:var(--cyan)}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:100px 0}
+.section-label{font-size:.75rem;text-transform:uppercase;letter-spacing:3px;color:var(--cyan);margin-bottom:12px;font-weight:600}
+.section-title{font-size:clamp(2rem,4vw,3rem);margin-bottom:16px}
+.section-desc{color:var(--text-dim);max-width:600px;font-size:1.05rem;line-height:1.7}
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:120px 0 80px}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg canvas{width:100%;height:100%}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;filter:blur(150px);opacity:.15;pointer-events:none}
+.hero-glow.blue{background:var(--primary);top:-200px;right:-100px}
+.hero-glow.violet{background:var(--violet);bottom:-200px;left:-100px}
+.hero-glow.cyan{background:var(--cyan);top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;opacity:.07}
+.hero .container{position:relative;z-index:1}
+.hero-content{max-width:750px}
+.hero-content .section-label{font-size:.8rem;letter-spacing:4px}
+.hero h1{font-size:clamp(2.2rem,5.5vw,3.8rem);margin:16px 0 24px;line-height:1.08}
+.hero h1 .gradient-text{background:linear-gradient(135deg,var(--cyan),var(--primary),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(1rem,1.8vw,1.15rem);color:var(--text-dim);max-width:650px;line-height:1.75;margin-bottom:36px}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+.btn-primary{padding:14px 32px;border-radius:10px;font-size:.95rem;font-weight:600;background:var(--gradient);color:#fff;border:none;cursor:pointer;transition:transform .3s,box-shadow .3s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(99,102,241,0.35)}
+.btn-secondary{padding:14px 32px;border-radius:10px;font-size:.95rem;font-weight:600;background:transparent;color:var(--text);border:1px solid var(--glass-border);cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+.btn-secondary:hover{border-color:var(--primary);background:rgba(59,130,246,0.08)}
+.hero-stats{display:flex;gap:40px;margin-top:60px;padding-top:40px;border-top:1px solid var(--glass-border)}
+.hero-stat .stat-val{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:var(--emerald)}
+.hero-stat .stat-lbl{font-size:.8rem;color:var(--text-dim);margin-top:4px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:60px}
+.about-text p{color:var(--text-dim);margin-bottom:20px;line-height:1.8;font-size:1.05rem}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--emerald);font-size:.85rem;font-weight:600;margin-top:12px}
+.about-quote{position:relative;padding:36px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.about-quote .quote-mark{font-size:4rem;font-family:'Space Grotesk',sans-serif;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;display:block;margin-bottom:8px}
+.about-quote blockquote{font-size:1.3rem;font-weight:600;line-height:1.5;margin-bottom:16px}
+.about-quote cite{color:var(--text-dim);font-size:.9rem;font-style:normal}.pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
+.pillar-card{position:relative;padding:32px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .4s,border-color .4s,box-shadow .4s;overflow:hidden}
+.pillar-card .card-glow{position:absolute;inset:-1px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--violet),var(--cyan));opacity:0;transition:opacity .4s;z-index:-1}
+.pillar-card:hover{transform:translateY(-4px);border-color:rgba(99,102,241,0.3);box-shadow:0 20px 60px rgba(99,102,241,0.1)}
+.pillar-card:hover .card-glow{opacity:.15}
+.pillar-card .card-num{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--indigo);font-weight:600;margin-bottom:16px;letter-spacing:1px}
+.pillar-card .card-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(168,85,247,0.15));display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--cyan)}
+.pillar-card .card-icon i{width:24px;height:24px}
+.pillar-card h3{font-size:1.1rem;margin-bottom:10px}
+.pillar-card p{color:var(--text-dim);font-size:.9rem;line-height:1.6}
+.focus-section .focus-block{display:flex;align-items:center;gap:60px;margin-top:60px}
+.focus-section .focus-block.reverse{flex-direction:row-reverse}
+.focus-visual{flex:0 0 280px;height:280px;border-radius:20px;background:var(--glass);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.focus-visual::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(34,211,238,0.08));opacity:0;transition:opacity .4s}
+.focus-block:hover .focus-visual::before{opacity:1}
+.focus-visual i{width:64px;height:64px;color:var(--cyan);z-index:1}
+.focus-content{flex:1}
+.focus-content h3{font-size:1.5rem;margin-bottom:12px}
+.focus-content p{color:var(--text-dim);line-height:1.8;font-size:1.05rem}
+
+.global-section{text-align:center}
+.global-cards{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:60px}
+.global-card{padding:48px 32px;border-radius:20px;background:var(--glass);border:1px solid var(--glass-border);position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.global-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(99,102,241,0.1)}
+.global-card .year-tag{font-family:'Space Grotesk',sans-serif;font-size:.75rem;text-transform:uppercase;letter-spacing:3px;color:var(--cyan);margin-bottom:12px}
+.global-card h3{font-size:1.8rem;margin-bottom:12px}
+.global-card p{color:var(--text-dim);line-height:1.7}
+.global-card::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:var(--gradient)}
+.global-card .flag{font-size:2.5rem;margin-bottom:16px;display:block}
+.global-statement{margin-top:40px;color:var(--text-dim);font-size:1.05rem;line-height:1.7;max-width:700px;margin-left:auto;margin-right:auto}
+
+.stats-section{background:linear-gradient(180deg,rgba(15,20,35,0),rgba(99,102,241,0.05),rgba(15,20,35,0))}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:60px}
+.stat-card{text-align:center;padding:40px 20px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-border);transition:transform .3s}
+.stat-card:hover{transform:translateY(-4px)}
+.stat-card .stat-number{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;color:var(--emerald);margin-bottom:8px}
+.stat-card .stat-label{color:var(--text-dim);font-size:.9rem}
+
+.mentor-section{overflow:hidden}
+.mentor-journey{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:60px;flex-wrap:wrap}
+.mentor-node{padding:20px 28px;border-radius:12px;background:var(--glass);border:1px solid var(--glass-border);text-align:center;font-weight:600;font-size:.9rem;transition:transform .3s,box-shadow .3s;min-width:140px}
+.mentor-node:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(99,102,241,0.12)}
+.mentor-node.primary{background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(168,85,247,0.2));border-color:rgba(99,102,241,0.3)}
+.mentor-arrow{color:var(--cyan);font-size:1.2rem}
+.mentor-desc{margin-top:40px;text-align:center;color:var(--text-dim);max-width:700px;margin-left:auto;margin-right:auto;line-height:1.8;font-size:1.05rem}
+
+.cta-section{position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(168,85,247,0.08),rgba(34,211,238,0.05));z-index:0}
+.cta-section .container{position:relative;z-index:1;text-align:center}
+.cta-section .section-title{font-size:clamp(2rem,4vw,3.2rem)}
+.cta-section .section-desc{margin:0 auto 48px}
+.contact-form{max-width:500px;margin:48px auto 0;display:flex;flex-direction:column;gap:16px}
+.form-group{position:relative}
+.form-group input,.form-group textarea{width:100%;padding:16px 20px;border-radius:12px;border:1px solid var(--glass-border);background:var(--glass);color:var(--text);font-family:'Inter',sans-serif;font-size:.95rem;outline:none;transition:border-color .3s,box-shadow .3s}
+.form-group textarea{resize:vertical;min-height:120px}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,102,241,0.15)}
+.form-group label{position:absolute;top:-8px;left:16px;font-size:.7rem;color:var(--text-dim);background:var(--bg);padding:0 6px;text-transform:uppercase;letter-spacing:1px}
+.form-submit{display:flex;gap:16px;justify-content:center;margin-top:8px}
+
+.footer{padding:60px 0 30px;border-top:1px solid var(--glass-border)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand .logo{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
+.footer-brand .tagline{font-size:.8rem;color:var(--text-dim);margin-bottom:12px}
+.footer-brand p{color:var(--text-dim);font-size:.85rem;line-height:1.6}
+.footer-col h4{font-size:.8rem;text-transform:uppercase;letter-spacing:2px;color:var(--text);margin-bottom:16px}
+.footer-col a{display:block;color:var(--text-dim);font-size:.9rem;margin-bottom:10px;transition:color .3s}
+.footer-col a:hover{color:var(--cyan)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--glass-border)}
+.footer-bottom p{font-size:.8rem;color:var(--text-dim)}
+.social-icons{display:flex;gap:16px}
+.social-icons a{color:var(--text-dim);transition:color .3s}
+.social-icons a:hover{color:var(--cyan)}
+.social-icons a i{width:20px;height:20px}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
+.reveal-delay-5{transition-delay:.5s}
+
+@media(max-width:1024px){
+.pillars-grid{grid-template-columns:repeat(2,1fr)}
+.about-grid{grid-template-columns:1fr;gap:40px}
+.focus-section .focus-block,.focus-section .focus-block.reverse{flex-direction:column;gap:32px}
+.focus-visual{flex:none;width:100%;height:200px}
+.footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+section{padding:70px 0}
+.nav-links{display:none}
+.hamburger{display:flex}
+.hero{padding:100px 0 60px}
+.hero h1{font-size:2rem}
+.hero-stats{flex-direction:column;gap:20px}
+.pillars-grid{grid-template-columns:1fr}
+.global-cards{grid-template-columns:1fr}
+.stats-grid{grid-template-columns:repeat(2,1fr)}
+.mentor-journey{flex-direction:column}
+.mentor-arrow{transform:rotate(90deg)}
+.footer-grid{grid-template-columns:1fr}
+.footer-bottom{flex-direction:column;gap:16px;text-align:center}
+}
+@media(max-width:480px){
+.hero h1{font-size:1.7rem}
+.hero-btns{flex-direction:column}
+.btn-primary,.btn-secondary{width:100%;justify-content:center}
+.stats-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+*{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+.reveal{opacity:1;transform:none}
+html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body><nav class="navbar" id="navbar">
+<div class="container">
+<div class="nav-brand">
+<span class="logo">HyperBuild</span>
+<span class="tagline">The Lexicon MILE AI Lab</span>
+</div>
+<div class="nav-links">
+<a href="#about">About</a>
+<a href="#pillars">Program Model</a>
+<a href="#focus">Focus Areas</a>
+<a href="#focus">Curriculum Pillars</a>
+<a href="#mentorship">Mentorship</a>
+<a href="#global">Global Immersion</a>
+<a href="#contact">Contact</a>
+</div>
+<button class="nav-cta" onclick="document.getElementById('pillars').scrollIntoView({behavior:'smooth'})">Explore the Lab</button>
+<button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+<span></span><span></span><span></span>
+</button>
+</div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+<a href="#about" class="mobile-link">About</a>
+<a href="#pillars" class="mobile-link">Program Model</a>
+<a href="#focus" class="mobile-link">Focus Areas</a>
+<a href="#mentorship" class="mobile-link">Mentorship</a>
+<a href="#global" class="mobile-link">Global Immersion</a>
+<a href="#contact" class="mobile-link">Contact</a>
+<button class="nav-cta" onclick="document.getElementById('pillars').scrollIntoView({behavior:'smooth'});closeMenu()">Explore the Lab</button>
+</div>
+
+<section class="hero" id="hero">
+<div class="hero-bg"><canvas id="heroCanvas"></canvas></div>
+<div class="hero-glow blue"></div>
+<div class="hero-glow violet"></div>
+<div class="hero-glow cyan"></div>
+<div class="container">
+<div class="hero-content">
+<p class="section-label">Lexicon MILE AI Lab</p>
+<h1>This Is Not Classroom AI.<br>This Is <span class="gradient-text">Boardroom-Ready AI.</span></h1>
+<p class="hero-sub">HyperBuild – The Lexicon MILE AI Lab is the engine behind India's most structured AI-integrated PGDM/MBA program, embedding artificial intelligence directly into real business execution.</p>
+<div class="hero-btns">
+<button class="btn-primary" onclick="document.getElementById('pillars').scrollIntoView({behavior:'smooth'})">See How It Works <i data-lucide="arrow-down-right"></i></button>
+<button class="btn-secondary" href="#">Download Overview <i data-lucide="download"></i></button>
+</div>
+<div class="hero-stats">
+<div class="hero-stat">
+<div class="stat-val">2-Year</div>
+<div class="stat-lbl">Full-Time Program</div>
+</div>
+<div class="hero-stat">
+<div class="stat-val">AI-Integrated</div>
+<div class="stat-lbl">PGDM/MBA Curriculum</div>
+</div>
+<div class="hero-stat">
+<div class="stat-val">Industry</div>
+<div class="stat-lbl">Immersive Learning</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="about-section" id="about">
+<div class="container">
+<p class="section-label reveal">Philosophy</p>
+<h2 class="section-title reveal">Building <span class="gradient-text">Day Zero</span> Professionals</h2>
+<div class="about-grid">
+<div class="about-text reveal">
+<p>Day Zero Professionals don't just study management theory — they design automation frameworks, work on live corporate challenges, build revenue-generating project models, and deploy AI-powered solutions to real industry problems.</p>
+<p>HyperBuild bridges the gap between traditional management education and the demands of a digitally transforming business landscape. Every student emerges ready to lead from day one.</p>
+<div class="badge">
+<i data-lucide="check-circle"></i>
+No Prior Coding Background Required
+</div>
+</div>
+<div class="about-quote reveal reveal-delay-2">
+<span class="quote-mark">"</span>
+<blockquote>A Mentor Every MILE</blockquote>
+<p style="color:var(--text-dim);line-height:1.7;margin-top:8px">Every student is guided by industry leaders, faculty, and global practitioners who bring real-world insight into every step of the learning journey.</p>
+<cite>— The HyperBuild Mentorship Philosophy</cite>
+</div>
+</div>
+</div>
+</section><section class="pillars-section" id="pillars">
+<div class="container">
+<p class="section-label reveal">Program Model</p>
+<h2 class="section-title reveal">6 Curriculum Pillars</h2>
+<p class="section-desc reveal">A structured framework designed to develop AI-literate business leaders through progressive, hands-on learning.</p>
+<div class="pillars-grid">
+<div class="pillar-card reveal reveal-delay-1">
+<div class="card-glow"></div>
+<div class="card-num">01</div>
+<div class="card-icon"><i data-lucide="brain"></i></div>
+<h3>AI Literacy &amp; Business Thinking</h3>
+<p>Build foundational AI understanding while developing the ability to connect AI capabilities with real business opportunities and managerial decisions.</p>
+</div>
+<div class="pillar-card reveal reveal-delay-2">
+<div class="card-glow"></div>
+<div class="card-num">02</div>
+<div class="card-icon"><i data-lucide="layers"></i></div>
+<h3>Functional AI in Marketing, HR, Finance &amp; Operations</h3>
+<p>Understand how AI can transform core business functions and improve managerial effectiveness across every department.</p>
+</div>
+<div class="pillar-card reveal reveal-delay-3">
+<div class="card-glow"></div>
+<div class="card-num">03</div>
+<div class="card-icon"><i data-lucide="bar-chart-3"></i></div>
+<h3>Data-Driven Dashboards &amp; Decision Models</h3>
+<p>Use data, dashboards, analytics, and AI-assisted decision models to support smarter, evidence-based business decisions.</p>
+</div>
+<div class="pillar-card reveal reveal-delay-1">
+<div class="card-glow"></div>
+<div class="card-num">04</div>
+<div class="card-icon"><i data-lucide="rocket"></i></div>
+<h3>Live Industry AI Projects</h3>
+<p>Work on real-world business challenges and develop practical AI-enabled solutions with measurable business impact.</p>
+</div>
+<div class="pillar-card reveal reveal-delay-2">
+<div class="card-glow"></div>
+<div class="card-num">05</div>
+<div class="card-icon"><i data-lucide="zap"></i></div>
+<h3>AI Entrepreneurship &amp; Automation</h3>
+<p>Explore AI-powered entrepreneurship, business automation, process optimization, and new venture opportunities.</p>
+</div>
+<div class="pillar-card reveal reveal-delay-3">
+<div class="card-glow"></div>
+<div class="card-num">06</div>
+<div class="card-icon"><i data-lucide="award"></i></div>
+<h3>Capstone Showcase</h3>
+<p>Bring together business knowledge, AI capabilities, and real-world execution through a comprehensive final capstone project.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="focus-section" id="focus">
+<div class="container">
+<p class="section-label reveal">Focus Areas</p>
+<h2 class="section-title reveal">Where Business Meets <span class="gradient-text">AI Execution</span></h2>
+<div class="focus-block reveal">
+<div class="focus-visual"><i data-lucide="briefcase"></i></div>
+<div class="focus-content">
+<h3>Business Expertise</h3>
+<p>Mastery across Marketing, Finance, Operations, Analytics, and HR — building a comprehensive foundation in management disciplines that drive organizational performance.</p>
+</div>
+</div>
+<div class="focus-block reverse reveal">
+<div class="focus-visual"><i data-lucide="cpu"></i></div>
+<div class="focus-content">
+<h3>Digital Transformation</h3>
+<p>AI-driven strategies applied to modern managerial practice and organizational transformation — preparing leaders for the digital-first business landscape.</p>
+</div>
+</div>
+<div class="focus-block reveal">
+<div class="focus-visual"><i data-lucide="lightbulb"></i></div>
+<div class="focus-content">
+<h3>Entrepreneurial Mindset</h3>
+<p>Develop independent thinking, risk awareness, resilience, initiative, and business ownership — the qualities that set founders and intrapreneurs apart.</p>
+</div>
+</div>
+<div class="focus-block reverse reveal">
+<div class="focus-visual"><i data-lucide="git-merge"></i></div>
+<div class="focus-content">
+<h3>Interdisciplinary Approach</h3>
+<p>Solve complex business problems by combining perspectives from multiple fields — technology, management, data science, and design thinking converge.</p>
+</div>
+</div>
+<div class="focus-block reveal">
+<div class="focus-visual"><i data-lucide="globe"></i></div>
+<div class="focus-content">
+<h3>Experiential Immersions</h3>
+<p>Learn through conclaves, workshops, industry interactions, and real-world projects — gaining hands-on experience that goes beyond the classroom.</p>
+</div>
+</div>
+</div>
+</section><section class="global-section" id="global">
+<div class="container">
+<p class="section-label reveal">Global Immersion</p>
+<h2 class="section-title reveal">Two Countries. Two Perspectives. One Journey.</h2>
+<div class="global-cards">
+<div class="global-card reveal reveal-delay-1">
+<span class="flag">&#127474;&#127462;</span>
+<div class="year-tag">Year 1</div>
+<h3>Malaysia</h3>
+<p>International exposure to a diverse business environment and global management practices, building cross-cultural leadership skills early in the program.</p>
+</div>
+<div class="global-card reveal reveal-delay-2">
+<span class="flag">&#127462;&#127466;</span>
+<div class="year-tag">Year 2</div>
+<h3>Dubai</h3>
+<p>Experience one of the world's major business and innovation hubs, engaging with global enterprises and emerging market dynamics.</p>
+</div>
+</div>
+<p class="global-statement reveal">Exposure to diverse business environments and global practices as part of the 2-year industry-integrated journey.</p>
+</div>
+</section>
+
+<section class="stats-section" id="stats">
+<div class="container">
+<p class="section-label reveal" style="text-align:center">By the Numbers</p>
+<h2 class="section-title reveal" style="text-align:center">Program at a Glance</h2>
+<div class="stats-grid">
+<div class="stat-card reveal reveal-delay-1">
+<div class="stat-number" data-target="2" data-suffix="-Year">0</div>
+<div class="stat-label">Full-Time Program</div>
+</div>
+<div class="stat-card reveal reveal-delay-2">
+<div class="stat-number" data-target="120" data-suffix="-Day">0</div>
+<div class="stat-label">Corporate Immersion</div>
+</div>
+<div class="stat-card reveal reveal-delay-3">
+<div class="stat-number" data-target="2" data-suffix="">0</div>
+<div class="stat-label">Global Immersion Countries</div>
+</div>
+<div class="stat-card reveal reveal-delay-4">
+<div class="stat-text">Real Industry Mentors</div>
+<div class="stat-label">Continuous Guidance</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="mentor-section" id="mentorship">
+<div class="container">
+<p class="section-label reveal" style="text-align:center">Mentorship</p>
+<h2 class="section-title reveal" style="text-align:center">A Mentor Every <span class="gradient-text">MILE</span></h2>
+<div class="mentor-journey reveal">
+<div class="mentor-node primary">Student</div>
+<span class="mentor-arrow"><i data-lucide="arrow-right"></i></span>
+<div class="mentor-node">Faculty</div>
+<span class="mentor-arrow"><i data-lucide="arrow-right"></i></span>
+<div class="mentor-node">Industry Leaders</div>
+<span class="mentor-arrow"><i data-lucide="arrow-right"></i></span>
+<div class="mentor-node">Global Practitioners</div>
+<span class="mentor-arrow"><i data-lucide="arrow-right"></i></span>
+<div class="mentor-node primary">Career Readiness</div>
+</div>
+<p class="mentor-desc reveal">Continuous mentorship from industry leaders, faculty, and global practitioners guides students toward career readiness, business execution, leadership development, and professional growth — ensuring every graduate is prepared to lead from day one.</p>
+</div>
+</section>
+
+<section class="cta-section" id="contact">
+<div class="container">
+<p class="section-label reveal">Get Started</p>
+<h2 class="section-title reveal">Build Your Future at <span class="gradient-text">HyperBuild</span></h2>
+<p class="section-desc reveal">Turn management knowledge into business execution with AI as an enabler. Connect with us to learn more about admissions and the program.</p>
+<form class="contact-form reveal" onsubmit="handleSubmit(event)">
+<div class="form-group">
+<label for="name">Name</label>
+<input type="text" id="name" name="name" placeholder="Your full name" required>
+</div>
+<div class="form-group">
+<label for="email">Email</label>
+<input type="email" id="email" name="email" placeholder="your@email.com" required>
+</div>
+<div class="form-group">
+<label for="message">Message</label>
+<textarea id="message" name="message" placeholder="Tell us about your interest in the program..." required></textarea>
+</div>
+<div class="form-submit">
+<button type="submit" class="btn-primary">Send Enquiry <i data-lucide="send"></i></button>
+<button type="button" class="btn-secondary" onclick="alert('Application portal coming soon!')">Apply Now <i data-lucide="external-link"></i></button>
+</div>
+</form>
+</div>
+</section>
+
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<div class="logo">HyperBuild</div>
+<div class="tagline">The Lexicon MILE AI Lab</div>
+<p>Embedding artificial intelligence into management education to create Day Zero professionals ready for real business execution.</p>
+</div>
+<div class="footer-col">
+<h4>Quick Links</h4>
+<a href="#about">About</a>
+<a href="#pillars">Program Model</a>
+<a href="#focus">Focus Areas</a>
+<a href="#contact">Contact</a>
+</div>
+<div class="footer-col">
+<h4>Program</h4>
+<a href="#pillars">Curriculum</a>
+<a href="#mentorship">Mentorship</a>
+<a href="#global">Global Immersion</a>
+<a href="#stats">Stats</a>
+</div>
+<div class="footer-col">
+<h4>Connect</h4>
+<a href="https://www.lexiconmile.com/" target="_blank" rel="noopener noreferrer">Lexicon MILE</a>
+<a href="#contact">Get in Touch</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p>&copy; 2025 HyperBuild – The Lexicon MILE AI Lab. All rights reserved.</p>
+<div class="social-icons">
+<a href="#" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+<a href="#" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+<a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+<a href="#" aria-label="YouTube"><i data-lucide="youtube"></i></a>
+</div>
+</div>
+</div>
+</footer><script>
+(function(){
+const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Initialize Lucide icons
+if(window.lucide)lucide.createIcons();
+
+// Navbar scroll effect
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+navbar.classList.toggle('scrolled',window.scrollY>50);
+});
+
+// Hamburger menu
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobileMenu');
+hamburger.addEventListener('click',()=>{
+hamburger.classList.toggle('active');
+mobileMenu.classList.toggle('active');
+});
+function closeMenu(){
+hamburger.classList.remove('active');
+mobileMenu.classList.remove('active');
+}
+window.closeMenu=closeMenu;
+document.querySelectorAll('.mobile-link').forEach(link=>{
+link.addEventListener('click',closeMenu);
+});
+
+// Scroll reveal with IntersectionObserver
+if(!prefersReduced){
+const reveals=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver((entries)=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add('visible');
+observer.unobserve(entry.target);
+}
+});
+},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+reveals.forEach(el=>observer.observe(el));
+}else{
+document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
+}
+
+// Animated counters
+function animateCounters(){
+const counters=document.querySelectorAll('.stat-number[data-target]');
+counters.forEach(counter=>{
+if(counter.dataset.animated)return;
+const observer2=new IntersectionObserver((entries)=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting&&!counter.dataset.animated){
+counter.dataset.animated='true';
+const target=parseInt(counter.dataset.target);
+const suffix=counter.dataset.suffix||'';
+let current=0;
+const step=target/40;
+const timer=setInterval(()=>{
+current+=step;
+if(current>=target){
+current=target;
+clearInterval(timer);
+}
+const display=target<10?current.toFixed(0):Math.floor(current);
+counter.textContent=display+suffix;
+},30);
+observer2.unobserve(counter.target);
+}
+});
+},{threshold:0.5});
+observer2.observe(counter);
+});
+}
+animateCounters();
+
+// Hero canvas - animated particle/neural-network mesh
+const canvas=document.getElementById('heroCanvas');
+if(canvas){
+const ctx=canvas.getContext('2d');
+let w,h,particles=[];
+function resize(){
+w=canvas.width=canvas.offsetWidth;
+h=canvas.height=canvas.offsetHeight;
+}
+resize();
+window.addEventListener('resize',resize);
+
+class Particle{
+constructor(){
+this.x=Math.random()*w;
+this.y=Math.random()*h;
+this.vx=(Math.random()-0.5)*0.3;
+this.vy=(Math.random()-0.5)*0.3;
+this.r=Math.random()*2+0.5;
+this.alpha=Math.random()*0.5+0.1;
+}
+update(){
+this.x+=this.vx;this.y+=this.vy;
+if(this.x<0||this.x>w)this.vx*=-1;
+if(this.y<0||this.y>h)this.vy*=-1;
+}
+draw(){
+ctx.beginPath();
+ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+ctx.fillStyle=gba(99,102,241,);
+ctx.fill();
+}
+}
+
+const count=Math.min(80,Math.floor(w*h/15000));
+for(let i=0;i<count;i++)particles.push(new Particle());
+
+function drawLines(){
+for(let i=0;i<particles.length;i++){
+for(let j=i+1;j<particles.length;j++){
+const dx=particles[i].x-particles[j].x;
+const dy=particles[i].y-particles[j].y;
+const dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<150){
+ctx.beginPath();
+ctx.moveTo(particles[i].x,particles[i].y);
+ctx.lineTo(particles[j].x,particles[j].y);
+const alpha=0.08*(1-dist/150);
+ctx.strokeStyle=gba(99,102,241,);
+ctx.lineWidth=0.5;
+ctx.stroke();
+}
+}
+}
+}
+
+function animate(){
+if(prefersReduced)return;
+ctx.clearRect(0,0,w,h);
+particles.forEach(p=>{p.update();p.draw();});
+drawLines();
+requestAnimationFrame(animate);
+}
+animate();
+}
+
+// Contact form handler
+window.handleSubmit=function(e){
+e.preventDefault();
+const name=document.getElementById('name').value;
+const email=document.getElementById('email').value;
+const msg=document.getElementById('message').value;
+if(name&&email&&msg){
+alert('Thank you '+name+'! Your enquiry has been received. We will get back to you at '+email+' shortly.');
+e.target.reset();
+}
+};
+})();
+</script>
+</body>
+</html>
